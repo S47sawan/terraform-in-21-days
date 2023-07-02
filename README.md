@@ -1,1 +1,1 @@
-# terraform-in-21-days
+Automating AWS with Terraform
