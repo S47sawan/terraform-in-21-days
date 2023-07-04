@@ -3,6 +3,7 @@
 locals {
   public_cidr  = ["10.0.0.0/24", "10.0.1.0/24"]
   private_cidr = ["10.0.100.0/24", "10.0.101.0/24"]
+  availability_zone = ["eu-west-2a", "eu-west-2b"]
 }
 #-------------------------------------------------------------------------------------------------------------------
 # RESOURCE VPC
@@ -34,7 +35,7 @@ resource "aws_subnet" "pub_sub" {
 
   vpc_id            = aws_vpc.env_vpc.id
   cidr_block        = local.public_cidr[count.index]
-  availability_zone = "eu-west-2a"
+  availability_zone = local.availability_zone[count.index]
 
   tags = {
     Name = "pub-sub${count.index}"
@@ -48,7 +49,7 @@ resource "aws_subnet" "prt_sub" {
 
   vpc_id            = aws_vpc.env_vpc.id
   cidr_block        = local.private_cidr[count.index]
-  availability_zone = "eu-west-2a"
+  availability_zone = local.availability_zone[count.index]
 
   tags = {
     Name = "prt-sub${count.index}"
