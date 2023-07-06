@@ -1,20 +1,20 @@
 # Refactor using Count Mega-argument
 # use locals block to declare local variables
-locals {
-  public_cidr       = ["10.0.0.0/24", "10.0.1.0/24"]
-  private_cidr      = ["10.0.100.0/24", "10.0.101.0/24"]
-  availability_zone = ["eu-west-2a", "eu-west-2b"]
-}
+# locals {
+#   public_cidr       = ["10.0.0.0/24", "10.0.1.0/24"]
+#   private_cidr      = ["10.0.100.0/24", "10.0.101.0/24"]
+#   availability_zone = ["eu-west-2a", "eu-west-2b"]
+# }
 #-------------------------------------------------------------------------------------------------------------------
 # RESOURCE VPC
 #-------------------------------------------------------------------------------------------------------------------
 resource "aws_vpc" "env_vpc" {
-  cidr_block           = "10.0.0.0/16"
+  cidr_block           = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
-    Name = "env-vpc"
+    Name = "${var.env_code}-env-vpc"
   }
 }
 #-------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ resource "aws_internet_gateway" "env_vpc_igw" {
   vpc_id = aws_vpc.env_vpc.id
 
   tags = {
-    Name = "env-vpc-igw"
+    Name = "${var.env_code}-env-igw"
   }
 }
 #-------------------------------------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ resource "aws_subnet" "pub_sub" {
   availability_zone = local.availability_zone[count.index]
 
   tags = {
-    Name = "pub-sub${count.index}"
+    Name = "${var.env_code}-pub-sub${count.index}"
   }
 }
 #-------------------------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ resource "aws_subnet" "prt_sub" {
   availability_zone = local.availability_zone[count.index]
 
   tags = {
-    Name = "prt-sub${count.index}"
+    Name = "${var.env_code}-prt-sub${count.index}"
   }
 }
 #-------------------------------------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ resource "aws_eip" "eip" {
   vpc = true
 
   tags = {
-    Name = "eip${count.index}"
+    Name = "${var.env_code}-eip${count.index}"
   }
 }
 #-------------------------------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ resource "aws_nat_gateway" "nat_gateway" {
   subnet_id     = aws_subnet.pub_sub[count.index].id
 
   tags = {
-    Name = "nat-gtw${count.index}"
+    Name = "${var.env_code}-nat-gtw${count.index}"
   }
   # To ensure proper ordering, it is recommended to add an explicit dependency
   # on the Internet Gateway for the VPC.
@@ -95,7 +95,7 @@ resource "aws_route_table" "pub_rtbl" {
   }
 
   tags = {
-    Name = "public-rtbl"
+    Name = "${var.env_code}-public-rtbl"
   }
 }
 #-------------------------------------------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ resource "aws_route_table" "prt_rtbl" {
   }
 
   tags = {
-    Name = "private-rtbl${count.index}"
+    Name = "${var.env_code}-private-rtbl${count.index}"
   }
 }
 #-------------------------------------------------------------------------------------------------------------------
