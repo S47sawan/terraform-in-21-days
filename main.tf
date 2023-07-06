@@ -31,11 +31,11 @@ resource "aws_internet_gateway" "env_vpc_igw" {
 # RESOURCE PUBLIC SUBNETS
 #-------------------------------------------------------------------------------------------------------------------
 resource "aws_subnet" "pub_sub" {
-  count = length(local.public_cidr)
+  count = length(var.public_cidr)
 
   vpc_id            = aws_vpc.env_vpc.id
-  cidr_block        = local.public_cidr[count.index]
-  availability_zone = local.availability_zone[count.index]
+  cidr_block        = var.public_cidr[count.index]
+  availability_zone = var.availability_zone[count.index]
 
   tags = {
     Name = "${var.env_code}-pub-sub${count.index}"
@@ -45,11 +45,11 @@ resource "aws_subnet" "pub_sub" {
 # RESOURCE PRIVATE SUBNETS
 #-------------------------------------------------------------------------------------------------------------------
 resource "aws_subnet" "prt_sub" {
-  count = length(local.private_cidr)
+  count = length(var.private_cidr)
 
   vpc_id            = aws_vpc.env_vpc.id
-  cidr_block        = local.private_cidr[count.index]
-  availability_zone = local.availability_zone[count.index]
+  cidr_block        = var.private_cidr[count.index]
+  availability_zone = var.availability_zone[count.index]
 
   tags = {
     Name = "${var.env_code}-prt-sub${count.index}"
@@ -59,7 +59,7 @@ resource "aws_subnet" "prt_sub" {
 # RESOURCE ELASTIC IPs
 #-------------------------------------------------------------------------------------------------------------------
 resource "aws_eip" "eip" {
-  count = length(local.public_cidr)
+  count = length(var.public_cidr)
 
   vpc = true
 
@@ -71,7 +71,7 @@ resource "aws_eip" "eip" {
 # RESOURCE NAT GATEWAYS
 #-------------------------------------------------------------------------------------------------------------------
 resource "aws_nat_gateway" "nat_gateway" {
-  count = length(local.public_cidr)
+  count = length(var.public_cidr)
 
   allocation_id = aws_eip.eip[count.index].id
   subnet_id     = aws_subnet.pub_sub[count.index].id
@@ -102,7 +102,7 @@ resource "aws_route_table" "pub_rtbl" {
 # RESOURCE PRIVATE ROUTE TABLES 
 #-------------------------------------------------------------------------------------------------------------------
 resource "aws_route_table" "prt_rtbl" {
-  count = length(local.private_cidr)
+  count = length(var.private_cidr)
 
   vpc_id = aws_vpc.env_vpc.id
   # route traffic from priavte route table to internet via the Nat gateway
@@ -120,13 +120,13 @@ resource "aws_route_table" "prt_rtbl" {
 #-------------------------------------------------------------------------------------------------------------------
 #public subnet association to public route table
 resource "aws_route_table_association" "pub_rtbl_association" {
-  count          = length(local.public_cidr)
+  count          = length(var.public_cidr)
   subnet_id      = aws_subnet.pub_sub[count.index].id
   route_table_id = aws_route_table.pub_rtbl.id
 }
 #Private subnets association to  private route tables
 resource "aws_route_table_association" "prt_rtbl_association" {
-  count          = length(local.private_cidr)
+  count          = length(var.private_cidr)
   subnet_id      = aws_subnet.prt_sub[count.index].id
   route_table_id = aws_route_table.prt_rtbl[count.index].id
 }
