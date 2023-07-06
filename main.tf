@@ -1,8 +1,8 @@
 # Refactor using Count Mega-argument
 # use locals block to declare local variables
 locals {
-  public_cidr  = ["10.0.0.0/24", "10.0.1.0/24"]
-  private_cidr = ["10.0.100.0/24", "10.0.101.0/24"]
+  public_cidr       = ["10.0.0.0/24", "10.0.1.0/24"]
+  private_cidr      = ["10.0.100.0/24", "10.0.101.0/24"]
   availability_zone = ["eu-west-2a", "eu-west-2b"]
 }
 #-------------------------------------------------------------------------------------------------------------------
