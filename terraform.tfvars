@@ -4,3 +4,6 @@ private_cidr = ["10.1.3.0/24", "10.1.4.0/24"]
 vpc_cidr = "10.1.0.0/16"
 availability_zone = ["eu-west-2a", "eu-west-2b"]
 
+#EC2 VARIBLE INPUTS
+instance-type = "t2.micro"
+key-name = "Public-key"
