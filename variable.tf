@@ -13,10 +13,6 @@ variable "private_cidr" {
   description = "list of cidr ranges for private subnets"
   default     = []
 }
-variable "availability_zone" {
-  description = "list of availability zones"
-  default     = []
-}
 variable "vpc_cidr" {
   description = "Cidr range for Dev VPC"
   default     = []
