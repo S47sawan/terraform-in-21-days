@@ -6,4 +6,4 @@ availability_zone = ["eu-west-2a", "eu-west-2b"]
 
 #EC2 VARIBLE INPUTS
 instance-type = "t2.micro"
-key-name = "Public-key"
+key-name = "public-keypair"
