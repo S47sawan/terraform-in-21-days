@@ -1,3 +1,9 @@
+#---------------------------------------------------------------------------------------------
+# Data Source for ami
+#--------------------------------------------------------------------------------------------
+data "aws_availability_zones" "available" {
+  state = "available"
+}
 #-------------------------------------------------------------------------------------------------------------------
 # RESOURCE VPC
 #-------------------------------------------------------------------------------------------------------------------
@@ -28,8 +34,7 @@ resource "aws_subnet" "pub_sub" {
 
   vpc_id            = aws_vpc.env_vpc.id
   cidr_block        = var.public_cidr[count.index]
-  availability_zone = var.availability_zone[count.index]
-
+  availability_zone = data.aws_availability_zones.available.names[count.index]
   tags = {
     Name = "${var.env_code}-pub-sub${count.index}"
   }
@@ -42,8 +47,7 @@ resource "aws_subnet" "prt_sub" {
 
   vpc_id            = aws_vpc.env_vpc.id
   cidr_block        = var.private_cidr[count.index]
-  availability_zone = var.availability_zone[count.index]
-
+  availability_zone = data.aws_availability_zones.available.names[count.index]
   tags = {
     Name = "${var.env_code}-prt-sub${count.index}"
   }
@@ -123,6 +127,7 @@ resource "aws_route_table_association" "prt_rtbl_association" {
   subnet_id      = aws_subnet.prt_sub[count.index].id
   route_table_id = aws_route_table.prt_rtbl[count.index].id
 }
+
 
 
 
