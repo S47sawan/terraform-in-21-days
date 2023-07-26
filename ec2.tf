@@ -15,12 +15,12 @@ resource "aws_security_group" "pub-ec2-sg" {
   }
 
   ingress {
-      description = "http traffic from internet"
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
+    description = "http traffic from internet"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -80,11 +80,11 @@ data "aws_ami" "amazonlinux" {
 
 resource "aws_instance" "public" {
   ami                         = data.aws_ami.amazonlinux.id
-  instance_type               = "${var.instance-type}"
+  instance_type               = var.instance-type
   subnet_id                   = aws_subnet.pub_sub[0].id
   vpc_security_group_ids      = [aws_security_group.pub-ec2-sg.id]
   associate_public_ip_address = true
-  key_name                    = "${var.key-name}"
+  key_name                    = var.key-name
   user_data                   = file("userdata.sh")
 
   tags = {
@@ -93,11 +93,11 @@ resource "aws_instance" "public" {
 }
 #Private EC2 instance
 resource "aws_instance" "private" {
-  ami                         = data.aws_ami.amazonlinux.id
-  instance_type               = "${var.instance-type}"
-  subnet_id                   = aws_subnet.prt_sub[0].id
-  vpc_security_group_ids      = [aws_security_group.prt-ec2-sg.id]
-  key_name                    = "${var.key-name}"
+  ami                    = data.aws_ami.amazonlinux.id
+  instance_type          = var.instance-type
+  subnet_id              = aws_subnet.prt_sub[0].id
+  vpc_security_group_ids = [aws_security_group.prt-ec2-sg.id]
+  key_name               = var.key-name
 
   tags = {
     Name = "${var.env_code}-prt-ec2"

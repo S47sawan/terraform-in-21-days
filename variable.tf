@@ -16,14 +16,14 @@ variable "private_cidr" {
 variable "vpc_cidr" {
   description = "Cidr range for Dev VPC"
   default     = []
-}#------------------------------------------------------------------------------------------------------------------------------------
+} #------------------------------------------------------------------------------------------------------------------------------------
 # Declare Variables for EC2
 #------------------------------------------------------------------------------------------------------------------------------------
 variable "instance-type" {
-   description = "Type of instance used"
-   default     = []  
+  description = "Type of instance used"
+  default     = []
 }
 variable "key-name" {
   description = "ssh key for the instance "
-   default     = ""
+  default     = ""
 }
