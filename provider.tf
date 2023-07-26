@@ -14,3 +14,14 @@ terraform {
 provider "aws" {
   region = "eu-west-2"
 }
+
+#Configure s3 remote backend for state file
+terraform {
+  backend "s3" {
+    bucket = "terraform-remote-state-smihah"
+    key    = "terraform.tfstate"
+    region = "eu-west-2"
+  }
+}
+
+
