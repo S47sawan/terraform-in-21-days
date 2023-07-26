@@ -85,6 +85,7 @@ resource "aws_instance" "public" {
   vpc_security_group_ids      = [aws_security_group.pub-ec2-sg.id]
   associate_public_ip_address = true
   key_name                    = "${var.key-name}"
+  user_data                   = file("userdata.sh")
 
   tags = {
     Name = "${var.env_code}-pub-ec2"
