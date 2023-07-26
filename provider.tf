@@ -18,9 +18,10 @@ provider "aws" {
 #Configure s3 remote backend for state file
 terraform {
   backend "s3" {
-    bucket = "terraform-remote-state-smihah"
+    bucket = "s3-backend-state-bucket-27"
     key    = "terraform.tfstate"
     region = "eu-west-2"
+    dynamodb_table = "state-lock"
   }
 }
 
