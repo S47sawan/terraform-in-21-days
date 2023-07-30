@@ -11,7 +11,3 @@ mv 2048/* /var/www/html/
 
 # Start and enable the Apache web server
 systemctl start httpd && systemctl enable httpd
-
-
-
-

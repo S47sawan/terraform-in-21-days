@@ -5,11 +5,11 @@ variable "env_code" {
   description = "Environment name for deployment of resources"
   default     = ""
 }
-variable "instance-type" {
+variable "instance_type" {
   description = "Type of instance used"
   default     = ""
 }
-variable "key-name" {
+variable "key_name" {
   description = "ssh key for the instance "
   default     = ""
 }
