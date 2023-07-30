@@ -1,11 +1,10 @@
 resource "aws_s3_bucket" "example" {
-  bucket = "s3-backend-state-bucket-27"
+  bucket = "s3-backend-state-bucket-270"
 
   tags = {
-    Name = "${var.env_code}-s3-backend-state-bucket-27"
+    Name = "${var.env_code}-s3-backend-state-bucket-270"
   }
 }
-
 resource "aws_dynamodb_table" "state-lock" {
   name         = "state-lock"
   billing_mode = "PAY_PER_REQUEST"
