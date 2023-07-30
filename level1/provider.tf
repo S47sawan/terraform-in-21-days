@@ -12,15 +12,15 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  region = "eu-west-2"
+  region = "us-east-1"
 }
 
 #Configure s3 remote backend for state file
 terraform {
   backend "s3" {
-    bucket         = "s3-backend-state-bucket-27"
+    bucket         = "s3-backend-state-bucket-270"
     key            = "level1.tfstate"
-    region         = "eu-west-2"
+    region         = "us-east-1"
     dynamodb_table = "state-lock"
   }
 }
