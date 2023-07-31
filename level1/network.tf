@@ -127,10 +127,3 @@ resource "aws_route_table_association" "prt_rtbl_association" {
   subnet_id      = aws_subnet.prt_sub[count.index].id
   route_table_id = aws_route_table.prt_rtbl[count.index].id
 }
-
-
-
-
-
-
-
