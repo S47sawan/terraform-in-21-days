@@ -24,6 +24,3 @@ terraform {
     dynamodb_table = "state-lock"
   }
 }
-
-
-
